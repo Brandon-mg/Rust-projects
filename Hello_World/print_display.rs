@@ -21,6 +21,9 @@ struct Point2D {
     y: f64,
 }
 
+#[derive(Debug)]
+struct List(Vec<i32>);
+
 // Similarly, implement `Display` for `Point2D`.
 impl fmt::Display for Point2D {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -29,6 +32,19 @@ impl fmt::Display for Point2D {
     }
 }
 
+impl fmt::Display for List{
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let vec = &self.0;
+        
+        write!(f, "[")?;
+
+        for (count, v) in vec.iter().enumerate() {
+            if count != 0 {write!(f,", ")?;}
+            write!(f, "{}: {}", count, v)?;
+        }
+        write!(f, "]")
+    }
+}
 fn main() {
     let minmax = MinMax(0, 14);
 
@@ -49,6 +65,9 @@ fn main() {
     println!("Display: {}", point);
     println!("Debug: {:?}", point);
 
+    let v = List(vec![1,2,3,4]);
+    println!("{}", v);
+    println!("{:?}", v)
     // Error. Both `Debug` and `Display` were implemented, but `{:b}`
     // requires `fmt::Binary` to be implemented. This will not work.
     // println!("What does Point2D look like in binary: {:b}?", point);
